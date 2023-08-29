@@ -37,5 +37,10 @@ def login(request):
         username=body["username"]
         password=body["password"]
 
-    print("Hello world")
-    return JsonResponse({"login":"success"})
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            print("Welcome to url shortener!!")
+        else:
+            print("Can't log in. Please try again later!")
+
+    return JsonResponse({"login":"ended"})
