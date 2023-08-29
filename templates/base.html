@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <style>
+        input {
+            width: 20rem;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>URL Shortener</h1>
+
+    <!-- <table>
+    <tr>
+      <th>SN</th>
+      <th>Original URL</th>
+      <th>Shortened URL</th>
+    </tr>
+    {%for url in url_table%}
+    <tr>
+      <td>{{url.id}}</td>
+      <td>{{url.original_url}}</td>
+      <td>{{url.shortened_url}}</td>
+    </tr>
+    {%endfor%}
+  </table> -->
+    <form id="url_form">
+        <input id="original_url" type="text" required method="POST">
+        <button type="submit">Shorten URL</button>
+    </form>
+    <!-- {{add_url}} -->
+    <script>
+        const form = document.getElementById('url_form');
+        const original_url=document.getElementById('original_url');
+        let long_url;
+        original_url.addEventListener('keydown',(e)=>{
+            long_url=e.target.value;
+        })
+        console.log('hello');
+        // console.log(add_url());
+        
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+           add_url(long_url);
+        })
+    </script>
+</body>
+
+</html>
