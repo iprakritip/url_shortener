@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
+from rest_framework.authtoken.models import Token
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -39,8 +40,16 @@ def login(request):
 
         user = authenticate(username=username, password=password)
         if user is not None:
+            
             print("Welcome to url shortener!!")
+            token, created = Token.objects.get_or_create(user=user)  # Get or create token
+            if created:
+                return JsonResponse({"token": token.key}, status=200)  # Return the token
+            else:
+                return JsonResponse({"token": token.key}, status=200)
+            
         else:
             print("Can't log in. Please try again later!")
+            return JsonResponse({"message":"login failed"},status=404)
 
-    return JsonResponse({"login":"ended"})
+    
