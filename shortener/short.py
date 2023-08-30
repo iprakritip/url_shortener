@@ -11,7 +11,8 @@ def generate_unique_id(length=5):
 
 
 SITE_URL=os.environ.get("SITE_URL")
-def add_url(original_url):
+
+def add_url(original_url,user_id):
     
     unique_id = generate_unique_id()
-    return URL_Table.objects.create(original_url=original_url, shortened_url=unique_id)
+    return URL_Table.objects.create(original_url=original_url, shortened_url=unique_id,user=user_id)

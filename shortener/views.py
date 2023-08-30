@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from shortener.models import URL_Table
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import User
 
 
 # Create your views here.
@@ -20,6 +21,13 @@ def shortener(request):
         body = json.loads(body_unicode)
 
         original_url=body["original_url"]
-        add_url(original_url)
-        print(original_url)
-    return JsonResponse({"link-status":"received"})
+        user_id=body["user_id"]
+
+        try:
+            user = User.objects.get(id=user_id) 
+            add_url(original_url,user)
+            print(original_url)
+            return JsonResponse({"link-status":"received"})
+
+        except User.DoesNotExist:
+            return JsonResponse({"error": "User not found"}, status=404)

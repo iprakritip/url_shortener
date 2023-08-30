@@ -23,9 +23,9 @@ def register(request):
         if username and email  and password:
             user=User.objects.create_user(username, email, password)
             print(user.password)
-            return JsonResponse({"message":"user registered!!"})
+            return JsonResponse({"message":"user registered!!"}, status=200)
         else:
-            return JsonResponse({"message":"error registering a new user."})
+            return JsonResponse({"message":"error registering a new user."}, status=400)
 
 
 @csrf_exempt 
