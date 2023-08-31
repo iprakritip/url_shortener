@@ -42,9 +42,9 @@ def login(request):
         if user is not None:
             
             print("Welcome to url shortener!!")
-            token, created = Token.objects.get_or_create(user=user)  # Get or create token
+            token, created = Token.objects.get_or_create(user=user)  
             if created:
-                return JsonResponse({"token": token.key}, status=200)  # Return the token
+                return JsonResponse({"token": token.key}, status=200)  
             else:
                 return JsonResponse({"token": token.key}, status=200)
             
