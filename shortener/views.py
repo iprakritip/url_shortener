@@ -37,6 +37,8 @@ def shortener(request):
 def redirect(request, url):
     try:
         curr_object = URL_Table.objects.get(shortened_url=url)
+        curr_object.count+=1
+        curr_object.save()
         return JsonResponse({"url": curr_object.original_url})
     except URL_Table.DoesNotExist:
         return JsonResponse({"message": "Page not found."})
