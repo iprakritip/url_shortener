@@ -31,3 +31,12 @@ def shortener(request):
 
         except User.DoesNotExist:
             return JsonResponse({"error": "User not found"}, status=404)
+
+
+@csrf_exempt 
+def redirect(request, url):
+    try:
+        curr_object = URL_Table.objects.get(shortened_url=url)
+        return JsonResponse({"url": curr_object.original_url})
+    except URL_Table.DoesNotExist:
+        return JsonResponse({"message": "Page not found."})

@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'task1.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'url_shortener_db',
+        'NAME': 'url_shortener',
         'USER': 'postgres',
         'PASSWORD': 'Associate@2023',
         'HOST': '127.0.0.1',
