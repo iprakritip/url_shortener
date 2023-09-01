@@ -3,6 +3,8 @@ from django.test import TestCase
 from shortener.models import URL_Table
 from django.contrib.auth.models import User
 from shortener.short import generate_unique_id
+from django.urls import reverse, resolve
+from shortener.views import shortener,redirect
 
 class URLTableTest(TestCase):
     
@@ -25,3 +27,14 @@ class shorteningLogicTest(TestCase):
         unique_id=generate_unique_id(8)
         self.assertEquals(len(unique_id),8)
         self.assertTrue(all(x in string.ascii_letters + string.digits for x in unique_id))
+
+
+class urlPatternTest(TestCase):
+
+    def test_shotener_url(self):
+        url=reverse('shortener')
+        self.assertEquals(resolve(url).func,shortener)
+
+    def test_redirect_url(self):
+        url=reverse('redirect', args=['SplYo'])
+        self.assertEquals(resolve(url).func,redirect)
