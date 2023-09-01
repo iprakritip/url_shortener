@@ -10,8 +10,6 @@ def generate_unique_id(length=5):
     return unique_id
 
 
-SITE_URL=os.environ.get("SITE_URL")
-
 def add_url(original_url,user_id):
     
     unique_id = generate_unique_id()
