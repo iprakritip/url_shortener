@@ -61,3 +61,17 @@ class shortenerViewTest(TestCase):
 
         self.assertEqual(response.status_code,200)
         self.assertEqual(response.json(),{"link-status":"received"})
+
+    def test_page_not_found(self):
+        data = {
+            "original_url": "www.facebook.com",
+            "user_id": 678
+        }
+        response=self.client.post(
+            self.url,
+            json.dumps(data),
+            content_type='application/json',
+            HTTP_ACCEPT='application/json')
+
+        self.assertEqual(response.status_code,404)
+        self.assertEqual(response.json(),{"error": "User not found"})

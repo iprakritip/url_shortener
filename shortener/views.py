@@ -27,7 +27,7 @@ def shortener(request):
             user = User.objects.get(id=user_id) 
             add_url(original_url,user)
             print(original_url)
-            return JsonResponse({"link-status":"received"})
+            return JsonResponse({"link-status":"received"},status=200)
 
         except User.DoesNotExist:
             return JsonResponse({"error": "User not found"}, status=404)
