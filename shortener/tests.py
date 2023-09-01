@@ -10,7 +10,7 @@ from shortener.views import shortener,redirect
 class URLTableTest(TestCase):
     
     def test_URL_Table(self):
-        user = User.objects.create_user(username='testuser', password='testpassword')
+        user = User.objects.create_user(username='testuser',email='testuser@gmail.com', password='testpassword')
         url = URL_Table.objects.create(original_url="www.spotify.com", user=user)
         self.assertEqual(str(url), 'www.spotify.com')
         print("IsAUrl : ",isinstance(url,URL_Table))
@@ -71,7 +71,23 @@ class shortenerViewTest(TestCase):
             self.url,
             json.dumps(data),
             content_type='application/json',
-            HTTP_ACCEPT='application/json')
+            )
 
         self.assertEqual(response.status_code,404)
         self.assertEqual(response.json(),{"error": "User not found"})
+
+
+class redirectViewTest(TestCase):
+
+    def setUp(self):
+        self.client=Client()
+        self.url="SplYo/"
+
+    def test_redirect_success(self):
+        user = User.objects.create_user(username='testuser',email='testuser@gmail.com', password='testpassword')
+        url_object=URL_Table.objects.create(original_url="www.twitter.com",user_id=user.id)
+        response=self.client.post(
+            self.url,
+            content_type='application/json',
+        )
+        self.assertEqual(response.json(),{"url": url_object.original_url})
