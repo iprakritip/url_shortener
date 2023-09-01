@@ -20,3 +20,8 @@ class shorteningLogicTest(TestCase):
         unique_id=generate_unique_id()
         self.assertEquals(len(unique_id),5)
         self.assertTrue(all(x in string.ascii_letters + string.digits for x in unique_id))
+
+    def test_id_custom_length(self):
+        unique_id=generate_unique_id(8)
+        self.assertEquals(len(unique_id),8)
+        self.assertTrue(all(x in string.ascii_letters + string.digits for x in unique_id))
