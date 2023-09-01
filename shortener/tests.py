@@ -1,6 +1,8 @@
+import string
 from django.test import TestCase
 from shortener.models import URL_Table
 from django.contrib.auth.models import User
+from shortener.short import generate_unique_id
 
 class URLTableTest(TestCase):
     
@@ -10,3 +12,11 @@ class URLTableTest(TestCase):
         self.assertEquals(str(url), 'www.spotify.com')
         print("IsAUrl : ",isinstance(url,URL_Table))
         self.assertTrue(isinstance(url,URL_Table))
+
+
+class shorteningLogicTest(TestCase):
+    
+    def test_id_default_length(self):
+        unique_id=generate_unique_id()
+        self.assertEquals(len(unique_id),5)
+        self.assertTrue(all(x in string.ascii_letters + string.digits for x in unique_id))
