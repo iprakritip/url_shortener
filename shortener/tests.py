@@ -45,15 +45,19 @@ class shortenerViewTest(TestCase):
 
     def setUp(self):
         self.client=Client()
-        self.user=User.objects.create_user(username='testuser', password='testpassword')
-        self.url="/shortener/"
+        self.user=User.objects.create_user(username='testuser',email='testuser@email.com', password='testpassword')
+        self.url=""
 
-    # def test_shorterner_post_success(self):
-    #     data = {
-    #         "original_url": "www.facebook.com",
-    #         "user_id": self.user.id
-    #     }
-    #     response=self.client.post(self.url,json.dumps(data),content_type='application/json')
+    def test_shorterner_post_success(self):
+        data = {
+            "original_url": "www.facebook.com",
+            "user_id": self.user.id
+        }
+        response=self.client.post(
+            self.url,
+            json.dumps(data),
+            content_type='application/json',
+            HTTP_ACCEPT='application/json')
 
-    #     # self.assertEquals(response.status_code,200)
-    #     self.assertEqual(response.json,{"link-status":"received"})
+        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.json(),{"link-status":"received"})
