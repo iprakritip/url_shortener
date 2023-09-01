@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from shortener.models import URL_Table
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
+from http import HTTPStatus
 
 
 # Create your views here.
@@ -27,10 +28,10 @@ def shortener(request):
             user = User.objects.get(id=user_id) 
             add_url(original_url,user)
             print(original_url)
-            return JsonResponse({"link-status":"received"},status=200)
+            return JsonResponse({"link-status":"received"},status=HTTPStatus.OK)
 
         except User.DoesNotExist:
-            return JsonResponse({"error": "User not found"}, status=404)
+            return JsonResponse({"error": "User not found"}, status=HTTPStatus.NOT_FOUND)
 
 
 @csrf_exempt 
@@ -39,6 +40,6 @@ def redirect(request, url):
         curr_object = URL_Table.objects.get(shortened_url=url)
         curr_object.count+=1
         curr_object.save()
-        return JsonResponse({"url": curr_object.original_url})
+        return JsonResponse({"url": curr_object.original_url}, status=HTTPStatus.OK)
     except URL_Table.DoesNotExist:
-        return JsonResponse({"message": "Page not found."})
+        return JsonResponse({"message": "Page not found."}, status=HTTPStatus.NOT_FOUND)

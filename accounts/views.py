@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from django.views.decorators.csrf import csrf_exempt
+from http import HTTPStatus
 
 
 
@@ -23,9 +24,9 @@ def register(request):
         if username and email  and password:
             user=User.objects.create_user(username, email, password)
             print(user.password)
-            return JsonResponse({"message":"user registered!!"}, status=200)
+            return JsonResponse({"message":"user registered!!"}, status=HTTPStatus.OK)
         else:
-            return JsonResponse({"message":"error registering a new user."}, status=400)
+            return JsonResponse({"message":"error registering a new user."}, status=HTTPStatus.BAD_REQUEST)
 
 
 @csrf_exempt 
@@ -44,12 +45,12 @@ def login(request):
             print("Welcome to url shortener!!")
             token, created = Token.objects.get_or_create(user=user)  
             if created:
-                return JsonResponse({"token": token.key}, status=200)  
+                return JsonResponse({"token": token.key}, status=HTTPStatus.OK)  
             else:
-                return JsonResponse({"token": token.key}, status=200)
+                return JsonResponse({"token": token.key}, status=HTTPStatus.OK)
             
         else:
             print("Can't log in. Please try again later!")
-            return JsonResponse({"message":"login failed"},status=404)
+            return JsonResponse({"message":"login failed"},status=HTTPStatus.NOT_FOUND)
 
     
