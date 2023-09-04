@@ -25,10 +25,14 @@ def shortener(request):
         user_id=body["user_id"]
 
         try:
-            user = User.objects.get(id=user_id) 
-            add_url(original_url,user)
-            print(original_url)
-            return JsonResponse({"link-status":"received"},status=HTTPStatus.OK)
+            if original_url !='' and user_id:
+                user = User.objects.get(id=user_id) 
+                add_url(original_url,user)
+                # print(original_url)
+                return JsonResponse({"link-status":"received"},status=HTTPStatus.OK)
+            
+            else:
+                return JsonResponse({"error":"Original URL and password are required feilds."},status=HTTPStatus.BAD_REQUEST)
 
         except User.DoesNotExist:
             return JsonResponse({"error": "User not found"}, status=HTTPStatus.NOT_FOUND)

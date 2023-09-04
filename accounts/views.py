@@ -23,7 +23,7 @@ def register(request):
 
         if username and email  and password:
             user=User.objects.create_user(username, email, password)
-            print(user.password)
+            # print(user.password)
             return JsonResponse({"message":"user registered!!"}, status=HTTPStatus.OK)
         else:
             return JsonResponse({"message":"error registering a new user."}, status=HTTPStatus.BAD_REQUEST)
@@ -42,7 +42,7 @@ def login(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             
-            print("Welcome to url shortener!!")
+            # print("Welcome to url shortener!!")
             token, created = Token.objects.get_or_create(user=user)  
             if created:
                 return JsonResponse({"token": token.key}, status=HTTPStatus.OK)  
@@ -50,7 +50,7 @@ def login(request):
                 return JsonResponse({"token": token.key}, status=HTTPStatus.OK)
             
         else:
-            print("Can't log in. Please try again later!")
+            # print("Can't log in. Please try again later!")
             return JsonResponse({"message":"login failed"},status=HTTPStatus.NOT_FOUND)
 
     
