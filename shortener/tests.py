@@ -1,5 +1,6 @@
 import json
 import string
+from http import HTTPStatus
 from django.test import TestCase, Client
 from shortener.models import URL_Table
 from django.urls import reverse, resolve
@@ -59,8 +60,22 @@ class shortenerViewTest(TestCase):
             content_type='application/json',
             HTTP_ACCEPT='application/json')
 
-        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code,HTTPStatus.OK)
         self.assertEqual(response.json(),{"link-status":"received"})
+
+    def test_shorterner_url_missing(self):
+        data_with_missing_url = {
+            "original_url":"",
+            "user_id": self.user.id
+        }
+        response=self.client.post(
+            self.url,
+            json.dumps(data_with_missing_url),
+            content_type='application/json',
+            )
+
+        self.assertEqual(response.status_code,HTTPStatus.BAD_REQUEST)
+        self.assertEqual(response.json(),{"error": "Original URL and password are required feilds."})
 
     def test_page_not_found(self):
         data = {
@@ -73,7 +88,7 @@ class shortenerViewTest(TestCase):
             content_type='application/json',
             )
 
-        self.assertEqual(response.status_code,404)
+        self.assertEqual(response.status_code,HTTPStatus.NOT_FOUND)
         self.assertEqual(response.json(),{"error": "User not found"})
 
 
